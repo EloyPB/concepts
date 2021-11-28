@@ -134,16 +134,18 @@ class Net:
                     should_all.append(zeros)
                     should_not_all.append(zeros)
 
-        reds = colors.LinearSegmentedColormap.from_list('reds', [(0, 0, 0, 0), (1, 0, 0, 1)], N=2)
-        greens = colors.LinearSegmentedColormap.from_list('greens', [(0, 0, 0, 0), (0, 1, 0, 1)], N=2)
-        blues = colors.LinearSegmentedColormap.from_list('blues', [(0, 0, 0, 0), (0, 0, 1, 1)], N=2)
+        reds = colors.LinearSegmentedColormap.from_list('reds', [(0, 0, 0, 0), (1, 127/255, 42/255, 1)], N=2)
+        greens = colors.LinearSegmentedColormap.from_list('greens', [(0, 0, 0, 0), (55/255, 200/255, 113/255, 1)], N=2)
+        blues = colors.LinearSegmentedColormap.from_list('blues', [(0, 0, 0, 0), (55/255, 113/255, 200/255, 1)], N=2)
 
         fig, ax = plt.subplots()
-        ax.matshow(head_all, origin='lower', cmap=blues)
-        ax.matshow(should_all, origin='lower', cmap=greens)
-        ax.matshow(should_not_all, origin='lower', cmap=reds)
-        ax.set_yticks(range(len(names)))
+        ax.pcolormesh(head_all, cmap=blues)
+        ax.pcolormesh(should_all, cmap=greens)
+        ax.pcolormesh(should_not_all, cmap=reds)
+        ax.set_yticks(np.arange(len(names)), minor=True)
+        ax.grid(axis='y', which='minor')
+        ax.set_yticks(np.arange(len(names))+0.5)
         ax.set_yticklabels(names)
         ax.xaxis.set_ticks_position('bottom')
 
-        plt.show()
+        return ax
